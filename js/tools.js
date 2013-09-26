@@ -13,12 +13,12 @@ var ToolsClass = Class.extend({
 		var ctxt = this;
 		
 		var toLoad = [
-			{name: 'Arms', src: '/js/data/arms.js'}
+			{name: 'Arms', src: 'js/data/arms.js'}
 		];
 		
 		ctxt.loadData({
 			table: 'Arms',
-			src: '/js/data/arms.js'
+			src: 'js/data/arms.js'
 		});
 		
 		ctxt.registerHandlers();
