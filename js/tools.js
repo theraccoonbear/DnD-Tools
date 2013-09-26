@@ -3,7 +3,7 @@ var ToolsClass = Class.extend({
 	templates: {
 		Arms: {
 			head: '<tr><th>Name</th><th>Cost</th><th>Weight</th><th>Dmg (S/M)</th><th>Dmg (L)</th></tr>',
-			record: '<tr><td>{{name}}</td><td>{{cost}}</td><td>{{weight}}</td><td>{{smallMediumDamage}}</td><td>{{largeDamage}}</td></tr>'
+			record: '<tr><td><a href="#" data-id="{{id}}">{{name}}</a></td><td>{{cost}}</td><td>{{weight}}</td><td>{{smallMediumDamage}}</td><td>{{largeDamage}}</td></tr>'
 		}
 	},
 	
@@ -40,8 +40,7 @@ var ToolsClass = Class.extend({
 		
 		var o = {
 			'table': 'tableName',
-			'src': '/tableName.csv',
-			'after': function() { /* ... */ }
+			'src': '/tableName.csv'
 		};
 		
 		$.extend(o, opts);
@@ -51,11 +50,7 @@ var ToolsClass = Class.extend({
 			
 			var arrows = ctxt.DBs[o.table]({name:{'likenocase':'arrow'}});
 			
-			arrows.each(function(r) {
-				console.log(r.name + ': ' + r.cost);
-			});
-			//console.log(arrows);
-			if (typeof o.after == 'function') {
+			if (typeof o.after === 'function') {
 				o.after(data);
 			}
 		});
