@@ -3,7 +3,7 @@ var ToolsClass = Class.extend({
 	templates: {
 		Arms: {
 			head: '<tr><th>Name</th><th>Cost</th><th>Weight</th><th>Dmg (S/M)</th><th>Dmg (L)</th></tr>',
-			record: '<tr><td><a href="#" data-id="{{id}}">{{name}}</a></td><td>{{cost}}</td><td>{{weight}}</td><td>{{smallMediumDamage}}</td><td>{{largeDamage}}</td></tr>'
+			record: '<tr><td><a href="#" data-id="{{id}}" class="item">{{name}}</a></td><td>{{cost}}</td><td>{{weight}}</td><td>{{smallMediumDamage}}</td><td>{{largeDamage}}</td></tr>'
 		}
 	},
 	
@@ -36,8 +36,8 @@ var ToolsClass = Class.extend({
 		$('body').on('click', 'a.item', function(e) {
 			var $this = $(this);
 			var id = $this.data('id');
-			var table = $this.closes('table').data('table');
-			console.log(ctxt.getById(table, id));
+			var table = $this.closest('table').data('table');
+			console.log(ctxt.getByID(table, id));
 			
 		});
 	},
@@ -64,8 +64,9 @@ var ToolsClass = Class.extend({
 	},
 	
 	getByID: function(table, id) {
+		var ctxt = this;
 		var result = ctxt.DBs[table]({id: id});
-		return result;
+		return result.first();
 	},
 	
 	searchToHTML: function(table, search) {
