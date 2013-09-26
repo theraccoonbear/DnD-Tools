@@ -27,12 +27,19 @@ var ToolsClass = Class.extend({
 	
 	registerHandlers: function() {
 		var ctxt = this;
-		$('#searchField').keypress(function() {
+		$('#searchField').keyup(function() {
 			var $this = $(this);
 			var val = $this.val();
 			ctxt.searchToHTML('Arms', {name: {likenocase: val}});
 		});
 		
+		$('body').on('click', 'a.item', function(e) {
+			var $this = $(this);
+			var id = $this.data('id');
+			var table = $this.closes('table').data('table');
+			console.log(ctxt.getById(table, id));
+			
+		});
 	},
 	
 	loadData: function(opts) {
@@ -56,12 +63,17 @@ var ToolsClass = Class.extend({
 		});
 	},
 	
+	getByID: function(table, id) {
+		var result = ctxt.DBs[table]({id: id});
+		return result;
+	},
+	
 	searchToHTML: function(table, search) {
 		var ctxt = this;
 		var tmpls = ctxt.templates[table];
 		
 		var results = ctxt.DBs[table](search);
-		var $mkup = $('<table></table>');
+		var $mkup = $('<table id="table_' + table + '" data-table="' + table + '"></table>');
 		$mkup.append(Mustache.render(tmpls.head, {}));
 		results.each(function(r) {
 			$mkup.append(Mustache.render(tmpls.record, r));
