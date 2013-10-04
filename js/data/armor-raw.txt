@@ -1,0 +1,14 @@
+Banded 90 g.p.
+Ring 30 g.p.
+Chain 75 g.p.
+Scale 45 g.p. 
+Helmet, great 15 g.p.
+Shield, large 15 g.p.
+Helmet, small 10 g.p.
+Shield, small 10 g.p.
+Leather 5 g.p.
+Shield, small, wooden 1 g.p.
+Padded 4 g.p.
+Splinted 80 g.p.
+Plate 400 g.p.
+Studded 15 g.p.

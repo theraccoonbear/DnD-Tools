@@ -1,0 +1,4 @@
+Type|Weight|Space|Speed|SMDmg|LDmg|Cost
+Arrow|2|-|See Below|-|1-6|1-6
+Axe, Battle|75|c. 4'|4'|7|1-8|1-8
+Axe, Hand or throwing|50|c. 1-1/2'|1'|4|1-6|1-4

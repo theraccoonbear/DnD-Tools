@@ -1,0 +1,52 @@
+Arrow, normal, single 2 s.p.
+Javelin 10 s.p.
+Arrow, normal, dozen 1 g.p.
+Lance 6 g.p.
+Arrow, silver, single 1 g.p.
+Mace, footman’s 8 g.p.
+Axe, battle 5 g.p.
+Mace, horseman’s 4 g.p.
+Axe, hand or throwing 1 g.p.
+Morning Star 5 g.p.
+Bardiche 7 g.p.
+Partisan 10 g.p.
+Bec de corbin 6 g.p.
+Pick, Military, footman’s 8 g.p.
+Bill-Guisarme 6 g.p.
+Pick, Military, horseman’s 5 g.p.
+Bow, composite short 75 g.p.
+Pike, awl 3 g.p.
+Bow, composite, long 100 g.p.
+Quarrel (or Bolt), light, single 1 s.p.
+Bow, long 60 g.p.
+Bow, short 15 g.p.
+Quarrel (or Bolt), heavy, score 2 g.p.
+Crossbow, heavy 20 g.p.
+Crossbow, light 12 g.p.
+Ranseur 4 g.p.
+Dagger and scabbard 2 g.p.
+Scimitar 15 g.p.
+Dart 5 s.p.
+Sling & Bullets, dozen 15 s.p.
+Fauchard 3 g.p.
+Sling Bullets, score 10 s.p.
+Fauchard — Fork 8 g.p.
+Spear 1 g.p.
+Flail, footman’s 3 g.p.
+Spetum 3 g.p.
+Flail, horseman’s 8 g.p.
+Sword, bastard, & scabbard 25 g.p.
+Fork, Military 4 g.p.
+Glaive 6 g.p.
+Sword, broad, & scabbard 10 g.p.
+Glaive-Guisarme 10 g.p.
+Sword, long & scabbard 15 g.p.
+Guisarme 5 g.p.
+Sword, short & scabbard 8 g.p.
+Guisarme — Voulge 7 g.p.
+Sword, two-handed 30 g.p.
+Halberd 9 g.p.
+Trident 4 g.p.
+Hammer, Lucern 7 g.p.
+Voulge 2 g.p.
+Hammer 1 g.p
