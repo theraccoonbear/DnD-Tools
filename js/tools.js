@@ -1,3 +1,5 @@
+
+
 var ToolsClass = Class.extend({
 	DBs: {},
 	templates: {

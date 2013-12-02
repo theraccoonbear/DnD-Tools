@@ -38,10 +38,54 @@
 	</header>
 	
 	
+	<style type="text/css">
+		.form {
+			padding: 10px;
+			border: 2px solid #000;
+			width: 300px;
+		}
+		label span {
+			width: 80px;
+			display: inline-block;
+		}
+		.characterBox {
+			display: none;
+		}
+	</style>
 	
+
   <div role="main">
-    <div id="searchBox">
-	  <label for="searchField">Search: <input type="text" id="searchField"></label>
+    <div class="loginBox form">
+			<form id="loginForm">
+				<label for="username"><span>Username:</span> <input type="text" id="username"></label><br>
+				<label for="password"><span>Password:</span> <input type="password" id="password"></label><br>
+				<input type="submit" value="login">
+			</form>
+		</div><!-- .loginBox -->
+		
+		<div class="characterBox form">
+			<table>
+				<tr>
+					<td>
+						<label for="char-player">Player: <input type="text" id="char-player"></label>
+					</td><td>
+						<label for="char-name">Name: <input type="text" id="char-name"></label>
+					</td><td>
+						<label for="char-age">Age: <input type="text" id="char-age"></label>
+					</td>
+				</tr><tr>
+					<td>
+						<label for="char-classes" >Classes:</label>
+						<div id="char-classes" class="list" data-source="classes" data-template="<div><strong>{{name}}</strong> / {{xp}} XP</div>"></div>>
+						</div>
+					</td><td>
+						<label for="char-name">Name: <input type="text" id="char-name"></label>
+					</td><td>
+						<label for="char-age">Age: <input type="text" id="char-age"></label>
+					</td>
+				</tr>
+			</table>			
+		</div><!-- .characterBox -->
 	</div>
 	<div id="resultBox"></div>
   </div>
@@ -60,8 +104,11 @@
   <script src="js/Class.js"></script>
   <script src="js/mustache.js"></script>
   <script src="js/taffy-min.js"></script>
-  <script src="js/tools.js"></script>
 	<script src="http://sire.st/sirest.js"></script>
+	<script src="js/core.js"></script>
+	<script src="js/tools.js"></script>
+	<script src="js/login.js"></script>
+	<script src="js/characters.js"></script>
   
 	<!-- Uncomment for Kalendae -->
 	<!--<script src="js/libs/kalendae.min.js" type="text/javascript" charset="utf-8"></script>-->
