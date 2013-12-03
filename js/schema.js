@@ -6,11 +6,11 @@ var Schema = Class.extend({
 		return typeof o[f] !== 'undefined' ? o[f] : d;	
 	},
 	
-	objectValid: function(o) {
+	validate: function(o, opts) {
 		
 	},
 	
-	chainedName: function() {
+	chainName: function() {
 		var ctxt = this;
 		return ctxt.chain.join('.');
 	},
@@ -19,12 +19,10 @@ var Schema = Class.extend({
 		var ctxt = this;
 		o.members = ctxt.getProp(o, "members", false);
 		if (o.members !== false) {
-			console.log(ctxt.chainName() + '.' + o.name + " (Object)");
+			console.log(ctxt.chainName() + " (Object)");
 			var nmo = {};
 			for (var m in o.members) {
-				//if (o.hasOwnProperty(m)) {
-					nmo[m] = ctxt.parseField(o.members[m], m);
-				//}
+				nmo[m] = ctxt.parseField(o.members[m], m);
 			}
 			o.members = nmo;
 		} else {
@@ -42,7 +40,7 @@ var Schema = Class.extend({
 			max: false
 		};
 		
-		console.log(ctxt.chainName() + '.' + o.name + " (Integer)");
+		console.log(ctxt.chainName() + " (Integer)");
 		
 		return $.extend(o, defaults);
 	},
@@ -56,7 +54,7 @@ var Schema = Class.extend({
 			pattern: false
 		};
 		
-		console.log(ctxt.chainName() + '.' + o.name + " (String)");
+		console.log(ctxt.chainName() + " (String)");
 		
 		return $.extend(o, defaults);
 	},
@@ -64,9 +62,10 @@ var Schema = Class.extend({
 	parseArray: function(o) {
 		var ctxt = this;
 		o.elements = ctxt.getProp(o, "elements", false);
+		var arName = ctxt.chain.pop() + '[]';  
 		if (o.elements !== false) {
-			console.log(ctxt.chainName() + '.' + o.name + " (Array)");
-			o.elements = ctxt.parseField(o.elements);
+			//console.log(ctxt.chainName() + " (Array)");
+			o.elements = ctxt.parseField(o.elements, arName);
 		} else {
 			console.log("No elements specified for \"" + o.name + "\"");
 		}
@@ -84,7 +83,6 @@ var Schema = Class.extend({
 		
 		if (typeof field === 'undefined') {
 			console.log("Undefined passed to parseField()");
-			//return false;
 		} else {
 			field.type = ctxt.getProp(field, 'type', false);
 			field.name = ctxt.getProp(field, 'name', 'NO_NAME_' + field.type.toUpperCase());
@@ -100,7 +98,6 @@ var Schema = Class.extend({
 			} else {
 				console.log("No type specified for \"" + field.name + "\"");
 			}
-			//return field;
 			retVal = field;
 		}
 		ctxt.chain.pop();
@@ -109,7 +106,7 @@ var Schema = Class.extend({
 	
 	parseSchema: function(o) {
 		var ctxt = this;
-		ctxt.parseField(o, "ROOT");
+		ctxt.parseField(o, ctxt.getProp(o, "name", "ROOT"));
 	},
 	
 	constructor: function(o) {
