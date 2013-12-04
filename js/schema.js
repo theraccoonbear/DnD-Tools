@@ -33,6 +33,108 @@ var Schema = Class.extend({
 		}
 	},
 	
+	
+	/* BEGIN MOCKING */
+	mockObject: function(o, name) {
+		var ctxt = this;
+		var obj = {};
+		
+		for (var p in o.members) {
+			obj[p] = ctxt.mockField(o.members[p], p);
+		}
+		
+		return obj;
+	},
+	
+	mockInteger: function(o, name) {
+		var ctxt = this;
+		var obj = 12345;
+		
+		var min = o.min ? o.min : 1;
+		var max = o.max ? o.max : 100;
+		
+		if (typeof o.mock == 'function') {
+			obj = o.mock();
+		} else {
+			obj = Math.floor(Math.random() * (max -  min)) + min;
+		}
+		
+		return obj;
+	},
+	
+	mockString: function(o, name) {
+		var ctxt = this;
+		var obj = "MOCK STRING";
+		
+		var min = o.min ? o.min : 10;
+		var max = o.max ? o.max : 30;
+		
+		if (typeof o.mock == 'function') {
+			obj = o.mock();
+		} else {
+			var sa = [];
+			for (var i = min; i <= max; i++) {
+				var val = Math.ceil(Math.random() * 26) + 64;
+				val += Math.random() < 0.5 ? 0 : 32;
+				sa.push(String.fromCharCode(val));
+				if (Math.random() < 0.1) {
+					sa.push(' ');
+				}
+			}
+			obj = sa.join('').trim();
+		}
+		
+		return obj;
+	},
+	
+	mockArray: function(o, name) {
+		var ctxt = this;
+		var obj = [];
+		
+		var min = o.min ? o.min : 1;
+		var max = o.max ? o.max : 5;
+		if (typeof o.mock == 'function') {
+			obj = o.mock();
+		} else {
+			var l = Math.floor(Math.random() * (max - min)) + min;
+			
+			for (var i = 0; i <= l; i++) {
+				obj.push(ctxt.mockField(o.elements, i));
+			}
+		}
+		
+		return obj;
+	},
+	
+	mockField: function(field, name) {
+		var ctxt = this;
+		var obj = {};
+		
+		ctxt.chain.push(name);
+		switch (field.type.trim().toLowerCase()) {
+			case "object": obj = ctxt.mockObject(field, name); break;
+			case "integer": obj = ctxt.mockInteger(field, name); break;
+			case "string": obj = ctxt.mockString(field, name); break;
+			case "array": obj = ctxt.mockArray(field, name); break;
+			default: ctxt.error("Unsure of how to handle \"" + field.name + "\" of type \"" + field.type + "\"");
+		}
+		ctxt.chain.pop;
+		
+		return obj;
+	},
+	
+	mock: function() {
+		var ctxt = this;
+		var obj = {};
+		ctxt.chain = [];
+		obj = ctxt.mockField(ctxt.parsed, ctxt.parsed.name ? ctxt.parsed.name : 'ROOT');
+		ctxt.chain = [];
+		return obj;
+	},
+	
+	/* END MOCKING */
+	
+	
 	/* BEGIN VALIDATING */
 	validateObject: function(s, o, opts) {
 		var ctxt = this;
@@ -274,6 +376,8 @@ var Schema = Class.extend({
 	
 	/* END PARSING */
 	
+	
+	/* BEGIN INITIALIZATION */
 	loadSchema: function(url) {
 		var ctxt = this;
 		var schema = $.ajax({
@@ -282,7 +386,9 @@ var Schema = Class.extend({
 			async: false,
 		}).responseText;
 		
-		ctxt.parseSchema(JSON.parse(schema));
+		schema = schema.replace(/^[^\{]+/, '');
+		
+		ctxt.parseSchema(eval('(' + schema + ')'));
 	},
 	
 	constructor: function(o) {
@@ -295,7 +401,8 @@ var Schema = Class.extend({
 		} else {
 			ctxt.loadSchema(o.url);
 		}
-		
-		
 	}
+	
+	/* END INITIALIZATION */
+	
 });

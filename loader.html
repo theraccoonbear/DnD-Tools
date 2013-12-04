@@ -73,7 +73,7 @@
 			<hr/>
 			<label for="app"><span>App:</span> <input type="text" id="app" value="D-and-D"></label><br>
 			<label for="key"><span>Key:</span> <input type="text" id="key" value="character-1"></label><br>
-			<label for="data"><span>Data:</span> <textarea id="data" rows="15"></textarea></label>
+			<label for="data"><span>Data:</span> <textarea id="data" rows="15"></textarea></label><br>
 			<input type="submit" id="submit" value="Store" />
 			<pre id="response"></pre>
 		</form>
@@ -133,21 +133,31 @@
 		
 		$(function() {
 			
-			var cSchema = new Schema({url: 'js/schemas/character.json', debug: 0});
+			var cSchema = new Schema({url: 'js/schemas/character.js', debug: 0});
+			
+			//console.log(cSchema.mock());
+			
+			var $username = $('#username');
+			var $password = $('#password');
+			var $key = $('#key');
+			var $app = $('#app');
 			var $data = $('#data');
-			$data.val(JSON.stringify(sample_char));
+			//$data.val(JSON.stringify(sample_char));
 			
 			var $resultBox = $('#resultBox');
 			
 			$('form').submit(function(e) {
-				var obj = JSON.parse($data.val());
+				//var obj = JSON.parse($data.val());
 				
-				//console.log('Valid: ' + cSchema.validate(obj));
-				if (cSchema.validate(obj)) {
-					$resultBox.html("Valid Character!");
-				} else {
-					$resultBox.html(cSchema.errors.join("<br>\n"));
-				}
+				var char = cSchema.mock();
+				$data.val(JSON.stringify(char, undefined, 2));
+				
+				////console.log('Valid: ' + cSchema.validate(obj));
+				//if (cSchema.validate(obj)) {
+				//	$resultBox.html("Valid Character!");
+				//} else {
+				//	$resultBox.html(cSchema.errors.join("<br>\n"));
+				//}
 
 				e.preventDefault();
 			});
