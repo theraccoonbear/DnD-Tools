@@ -1,5 +1,8 @@
 var Schema = Class.extend({
 	chain: [],
+	errors: [],
+	messages: [],
+	parsed: {},
 	
 	getProp: function(o, f, d) {
 		d = typeof d === 'undefined' ? false : d;
@@ -15,18 +18,31 @@ var Schema = Class.extend({
 		return ctxt.chain.join('.');
 	},
 	
+	error: function(e) {
+		var ctxt = this;
+		ctxt.errors.push(e);
+		console.log('ERROR: ' + e);
+	},
+	
+	message: function(m) {
+		var ctxt = this;
+		ctxt.messages.push(m);
+		console.log(m);
+	},
+	
 	parseObject: function(o) {
 		var ctxt = this;
 		o.members = ctxt.getProp(o, "members", false);
+		var objName = ctxt.getProp(o, "name", false);
 		if (o.members !== false) {
-			console.log(ctxt.chainName() + " (Object)");
+			ctxt.message(ctxt.chainName() + " (" + (objName ? objName : '') + "Object)");
 			var nmo = {};
 			for (var m in o.members) {
 				nmo[m] = ctxt.parseField(o.members[m], m);
 			}
 			o.members = nmo;
 		} else {
-			console.log("No members specified for \"" + o.name + "\"");
+			ctxt.error("No members specified for \"" + o.name + "\"");
 		}
 		
 		return o;
@@ -35,12 +51,12 @@ var Schema = Class.extend({
 	parseInteger: function(o) {
 		var ctxt = this;
 		var defaults = {
-			name: "NO_NAME_INTEGER",
+			name: false,
 			min: false,
 			max: false
 		};
 		
-		console.log(ctxt.chainName() + " (Integer)");
+		ctxt.message(ctxt.chainName() + " (Integer)");
 		
 		return $.extend(o, defaults);
 	},
@@ -54,7 +70,7 @@ var Schema = Class.extend({
 			pattern: false
 		};
 		
-		console.log(ctxt.chainName() + " (String)");
+		ctxt.message(ctxt.chainName() + " (String)");
 		
 		return $.extend(o, defaults);
 	},
@@ -64,12 +80,11 @@ var Schema = Class.extend({
 		o.elements = ctxt.getProp(o, "elements", false);
 		var arName = ctxt.chain.pop() + '[]';  
 		if (o.elements !== false) {
-			//console.log(ctxt.chainName() + " (Array)");
 			o.elements = ctxt.parseField(o.elements, arName);
 		} else {
-			console.log("No elements specified for \"" + o.name + "\"");
+			ctxt.error("No elements specified for \"" + o.name + "\"");
 		}
-		
+		ctxt.chain.push('...');
 		return o;
 	},
 	
@@ -85,7 +100,7 @@ var Schema = Class.extend({
 			console.log("Undefined passed to parseField()");
 		} else {
 			field.type = ctxt.getProp(field, 'type', false);
-			field.name = ctxt.getProp(field, 'name', 'NO_NAME_' + field.type.toUpperCase());
+			field.name = ctxt.getProp(field, 'name', false);
 			
 			if (field.type !== false) {
 				switch (field.type.trim().toLowerCase()) {
@@ -93,10 +108,10 @@ var Schema = Class.extend({
 					case "integer": field = ctxt.parseInteger(field); break;
 					case "string": field = ctxt.parseString(field); break;
 					case "array": field = ctxt.parseArray(field); break;
-					default: console.log("Unsure of how to handle \"" + field.name + "\" of type \"" + field.type + "\"");
+					default: ctxt.error("Unsure of how to handle \"" + field.name + "\" of type \"" + field.type + "\"");
 				}
 			} else {
-				console.log("No type specified for \"" + field.name + "\"");
+				ctxt.error("No type specified for \"" + field.name + "\"");
 			}
 			retVal = field;
 		}
@@ -112,6 +127,6 @@ var Schema = Class.extend({
 	constructor: function(o) {
 		var ctxt = this;
 		
-		ctxt.parseSchema(o);
+		ctxt.parsed = ctxt.parseSchema(o);
 	}
 });
