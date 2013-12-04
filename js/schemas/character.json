@@ -1,0 +1,73 @@
+{
+	"name": "Character",
+	"type": "Object",
+	"members": {
+		"player": {"type": "String"},
+		"name": {"type": "String"},
+		"race": {"type": "String"},
+		"classes": {
+			"type": "Array",
+			"min": 1,
+			"elements": {
+				"type": "Object",
+				"name": "CharacterClass",
+				"members": {
+					"name": {"type": "String"},
+					"XP": {"type": "Integer", "min": 0},
+					"level": {"type": "Integer", "min": 0},
+					"label": {"type": "String"}
+				}
+			}
+		},
+		"hp": {
+			"type": "Object",
+			"members": {
+				"current": {"type": "Integer"},
+				"max": {"type": "Integer"}
+			}
+		},
+		"move": {"type": "Integer"},
+		"thac0": {"type": "Integer"},
+		"abilities": {
+			"type": "Object",
+			"members": {
+				"str": {
+					"type": "Object",
+					"members": {
+						"score": {"type": "Integer", "min": 3, "max": 18}
+					}
+				},
+				"int": {
+					"type": "Object",
+					"members": {
+						"score": {"type": "Integer", "min": 3, "max": 18}
+					}
+				},
+				"wis": {
+					"type": "Object",
+					"members": {
+						"score": {"type": "Integer", "min": 3, "max": 18}
+					}
+				},
+				"dex": {
+					"type": "Object",
+					"members": {
+						"score": {"type": "Integer", "min": 3, "max": 18}
+					}
+				},
+				"con": {
+					"type": "Object",
+					"members": {
+						"score": {"type": "Integer", "min": 3, "max": 18}
+					}
+				},
+				"cha": {
+					"type": "Object",
+					"members": {
+						"score": {"type": "Integer", "min": 3, "max": 18}
+					}
+				}
+			}
+		}
+	}
+}

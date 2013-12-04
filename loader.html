@@ -107,90 +107,15 @@
   <script src="js/characters.js"></script>
   
 	<script>
-		var schema = {
-			name: "Character",
-			type: "Object",
-			members: {
-				player: {type: "String"},
-				name: {type: "String"},
-				race: {type: "String"},
-				classes: {
-					type: "Array",
-					elements: {
-						type: "Object",
-						name: "CharacterClass",
-						members: {
-							name: {type: "String"},
-							XP: {type: "Integer", min: 0},
-							level: {type: "Integer", min: 0},
-							label: {type: "String"}
-						}
-					}
-				},
-				hp: {
-					type: "Object",
-					members: {
-						current: {type: "Integer"},
-						max: {type: "Integer"}
-					}
-				},
-				move: {type: "Integer"},
-				thac0: {type: "Integer"},
-				abilities: {
-					type: "Object",
-					members: {
-						str: {
-							type: "Object",
-							members: {
-								score: {type: "Integer", min: 3, max: 18},
-							}
-						},
-						int: {
-							type: "Object",
-							members: {
-								score: {type: "Integer", min: 3, max: 18},
-							}
-						},
-						wis: {
-							type: "Object",
-							members: {
-								score: {type: "Integer", min: 3, max: 18},
-							}
-						},
-						dex: {
-							type: "Object",
-							members: {
-								score: {type: "Integer", min: 3, max: 18},
-							}
-						},
-						con: {
-							type: "Object",
-							members: {
-								score: {type: "Integer", min: 3, max: 18},
-							}
-						},
-						cha: {
-							type: "Object",
-							members: {
-								score: {type: "Integer", min: 3, max: 18},
-							}
-						}
-					}
-				}
-			}
-		};
 		
 		
-		var cSchema = new Schema(schema);
-		
-		
-		var sample_data = {
+		var sample_char = {
 			player: "Joe Blow",
 			name: "Havershaft 'dul Bram",
 			race: "Mountain Dwarf",
 			classes: [
-				{name: "Fighter", XP: 5036, Level: 3, label: "Swordsman"},
-				{name: "Thief", XP: 5036, Level: 3, label: "Cutpurse"},
+				{name: "Fighter", XP: 5036, level: 3, label: "Swordsman"},
+				{name: "Thief", XP: 5036, level: 3, label: "Cutpurse"},
 			],
 			hp: {current: 9, max: 20},
 			move: 11,
@@ -205,9 +130,16 @@
 			}
 		};
 		
+		console.log("PARSING:");
+		var cSchema = new Schema({url: 'js/schemas/character.json'});
+		console.log("VALIDATING:");
+		var valid = cSchema.validate(sample_char);
+		
+		
+		
 		$(function() {
-			var sirest = new Sirest();
-			$('#data').val(JSON.stringify(sample_data));
+			//var sirest = new Sirest();
+			$('#data').val(JSON.stringify(sample_char));
 			$('form').submit(function(e) {
 				
 				
