@@ -3,6 +3,9 @@ var Schema = Class.extend({
 	errors: [],
 	messages: [],
 	parsed: {},
+	config: {
+		debug: 2	
+	},
 	
 	getProp: function(o, f, d) {
 		d = typeof d === 'undefined' ? false : d;
@@ -17,13 +20,17 @@ var Schema = Class.extend({
 	error: function(e) {
 		var ctxt = this;
 		ctxt.errors.push(e);
-		console.log('ERROR: ' + e);
+		if (ctxt.config.debug >= 2) {
+			console.log('ERROR: ' + e);
+		}
 	},
 	
 	message: function(m) {
 		var ctxt = this;
 		ctxt.messages.push(m);
-		console.log(m);
+		if (ctxt.config.debug >= 1) {
+			console.log(m);
+		}
 	},
 	
 	/* BEGIN VALIDATING */
@@ -147,6 +154,8 @@ var Schema = Class.extend({
 	validate: function(o, opts) {
 		var ctxt = this;
 		opts = typeof opts !== 'undefined' ? opts : {};
+		ctxt.errors = [];
+		ctxt.messages = [];
 		opts.name = ctxt.getProp(ctxt.parsed, "name", "ROOT")
 		ctxt.chain = [];
 		return ctxt.validateField(ctxt.parsed, o, opts);
@@ -257,6 +266,8 @@ var Schema = Class.extend({
 	
 	parseSchema: function(o) {
 		var ctxt = this;
+		ctxt.errors = [];
+		ctxt.messages = [];
 		ctxt.parsed = ctxt.parseField(o, ctxt.getProp(o, "name", "ROOT"));
 		ctxt.chain = [];
 	},
@@ -277,11 +288,14 @@ var Schema = Class.extend({
 	constructor: function(o) {
 		var ctxt = this;
 		
+		ctxt.config = $.extend({}, ctxt.config, o);
+		
 		if (typeof o.schema !== 'undefined') {
 			ctxt.parseSchema(o.schema);
 		} else {
 			ctxt.loadSchema(o.url);
 		}
+		
 		
 	}
 });

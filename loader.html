@@ -130,20 +130,25 @@
 			}
 		};
 		
-		console.log("PARSING:");
-		var cSchema = new Schema({url: 'js/schemas/character.json'});
-		console.log("VALIDATING:");
-		var valid = cSchema.validate(sample_char);
-		
-		
 		
 		$(function() {
-			//var sirest = new Sirest();
-			$('#data').val(JSON.stringify(sample_char));
+			
+			var cSchema = new Schema({url: 'js/schemas/character.json', debug: 0});
+			var $data = $('#data');
+			$data.val(JSON.stringify(sample_char));
+			
+			var $resultBox = $('#resultBox');
+			
 			$('form').submit(function(e) {
+				var obj = JSON.parse($data.val());
 				
-				
-				
+				//console.log('Valid: ' + cSchema.validate(obj));
+				if (cSchema.validate(obj)) {
+					$resultBox.html("Valid Character!");
+				} else {
+					$resultBox.html(cSchema.errors.join("<br>\n"));
+				}
+
 				e.preventDefault();
 			});
 		});
