@@ -93,7 +93,7 @@
 	<!-- scripts concatenated and minified via build script -->
   <script src="js/jquery-1.10.2.min.js"></script>
   <script src="js/Class.js"></script>
-	<script src="js/schema.js"></script>
+	<script src="/JSON-schema/js/schema.js"></script>
   <script src="js/mustache.js"></script>
   <script src="js/taffy-min.js"></script>
   <script src="http://sire.st/sirest.js"></script>
@@ -130,10 +130,13 @@
 			}
 		};
 		
+		var cSchema;
+		var char;
+		var testCharacter;
 		
 		$(function() {
 			
-			var cSchema = new Schema({url: 'js/schemas/character.js', debug: 0});
+			cSchema = new Schema({url: 'js/schemas/character.js', debug: 0});
 			
 			//console.log(cSchema.mock());
 			
@@ -142,6 +145,7 @@
 			var $key = $('#key');
 			var $app = $('#app');
 			var $data = $('#data');
+			
 			//$data.val(JSON.stringify(sample_char));
 			
 			var $resultBox = $('#resultBox');
@@ -149,7 +153,15 @@
 			$('form').submit(function(e) {
 				//var obj = JSON.parse($data.val());
 				
-				var char = cSchema.mock();
+				char = cSchema.mock({hooks: false});
+				console.log(char);
+				testCharacter = false;
+				try {
+					testCharacter = new CharacterClass(char);	
+				} catch(e) {
+					alert(e);
+				}
+				
 				$data.val(JSON.stringify(char, undefined, 2));
 				
 				////console.log('Valid: ' + cSchema.validate(obj));
