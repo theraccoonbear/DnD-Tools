@@ -119,7 +119,7 @@ var Schema = Class.extend({
 			default: ctxt.error("Unsure of how to handle \"" + field.name + "\" of type \"" + field.type + "\"");
 		}
 		ctxt.chain.pop;
-		obj.__schema = ctxt;
+		
 		return obj;
 	},
 	
@@ -129,6 +129,7 @@ var Schema = Class.extend({
 		ctxt.chain = [];
 		obj = ctxt.mockField(ctxt.parsed, ctxt.parsed.name ? ctxt.parsed.name : 'ROOT');
 		ctxt.chain = [];
+		obj.__schema = ctxt;
 		return obj;
 	},
 	
