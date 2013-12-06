@@ -72,7 +72,7 @@
 			<label for="password"><span>Password:</span> <input type="password" id="password"></label>
 			<hr/>
 			<label for="app"><span>App:</span> <input type="text" id="app" value="D-and-D"></label><br>
-			<label for="key"><span>Key:</span> <input type="text" id="key" value="character-1"></label><br>
+			<label for="key"><span>Key:</span> <input type="text" id="key" value="character-"></label><br>
 			<label for="data"><span>Data:</span> <textarea id="data" rows="15"></textarea></label><br>
 			<input type="submit" id="submit" value="Store" />
 			<pre id="response"></pre>
@@ -146,30 +146,40 @@
 			var $app = $('#app');
 			var $data = $('#data');
 			
-			//$data.val(JSON.stringify(sample_char));
-			
 			var $resultBox = $('#resultBox');
 			
 			$('form').submit(function(e) {
-				//var obj = JSON.parse($data.val());
-				
+				$key.val('character-' + new Date().getTime());
 				char = cSchema.mock({hooks: false});
-				console.log(char);
+				//console.log(char);
 				testCharacter = false;
 				try {
 					testCharacter = new CharacterClass(char);	
 				} catch(e) {
 					alert(e);
 				}
-				
 				$data.val(JSON.stringify(char, undefined, 2));
 				
-				////console.log('Valid: ' + cSchema.validate(obj));
-				//if (cSchema.validate(obj)) {
-				//	$resultBox.html("Valid Character!");
-				//} else {
-				//	$resultBox.html(cSchema.errors.join("<br>\n"));
-				//}
+				
+				var srst = new Sirest({app: $app.val()});
+				srst.authenticate($username.val(), $password.val(), {
+					callback: function(d) {
+						if (d.success) {
+							srst.store($key.val(), JSON.stringify(char), {
+								callback: function(d) {
+									console.log(d);
+								}
+							});
+						} else {
+							alert(d.message);
+						}
+					}
+				});
+
+				
+				
+				
+				
 
 				e.preventDefault();
 			});
